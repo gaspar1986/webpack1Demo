@@ -1,8 +1,8 @@
 /*
 * @Author: Rosen
 * @Date:   2017-05-08 15:28:19
-* @Last Modified by:   tianyg
-* @Last Modified time: 2018-05-17 09:33:48
+* @Last Modified by:   tianyonggang
+* @Last Modified time: 2018-05-17 10:35:03
 */
 var webpack             = require('webpack');
 var ExtractTextPlugin   = require('extract-text-webpack-plugin');
@@ -55,7 +55,7 @@ var config = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader","css-loader") },
+            { test: /\.(css|less)$/, loader: ExtractTextPlugin.extract("style-loader","css-loader!less-loader") },
             { test: /\.(gif|png|jpg|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=100&name=resource/[name].[ext]' },
             {
                 test: /\.string$/, 
@@ -76,6 +76,7 @@ var config = {
             image           : __dirname + '/src/image'
         }
     },
+
     plugins: [
         // 独立通用模块到js/base.js
         new webpack.optimize.CommonsChunkPlugin({
@@ -86,6 +87,7 @@ var config = {
         new ExtractTextPlugin("css/[name].css"),
         // html模板的处理
         new HtmlWebpackPlugin(getHtmlConfig('index', '首页')),
+        new HtmlWebpackPlugin(getHtmlConfig('test', '测试页面')),
         new HtmlWebpackPlugin(getHtmlConfig('list', '商品列表')),
         new HtmlWebpackPlugin(getHtmlConfig('detail', '商品详情')),
         new HtmlWebpackPlugin(getHtmlConfig('cart', '购物车')),
@@ -105,8 +107,8 @@ var config = {
     ]
 };
 
-/*if('dev' === WEBPACK_ENV){
+if('dev' === WEBPACK_ENV){
     config.entry.common.push('webpack-dev-server/client?http://localhost:8088/');
-}*/
+}
 
 module.exports = config;
